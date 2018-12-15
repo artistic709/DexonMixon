@@ -1,17 +1,38 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div class="container-fluid h-100">
+      <div class="row h-100">
+        <div class="col-3 col-panel">
+          <transistion name="fade" mode="out-in" v-on:after-enter="loaded" appear>
+          <router-view>
+          </router-view>
+          </transistion>
+        </div>
+        <div class="col col-wheel">
+          <Wheel></Wheel>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
-
 import Web3 from 'web3'
 import utils from './utils'
+
+import Wheel from './components/Wheel.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Wheel
+  },
+  methods: {
+    loaded() {
+      console.log("Component Loaded!");
+    }
+  }
+}
 
 const web3 = utils.getWeb3Instance()
 
@@ -27,6 +48,24 @@ function hi() {
 
 window.hi = hi
 </script>
-
 <style>
+body {
+  margin: 0px;
+  overflow: hidden;
+  background-color: #eff6ff;
+}
+
+#app {
+  width: 100%;
+  height: 100vh;
+}
+
+.col-panel {
+  background-color: #fafafa;
+  box-shadow: 0 0 12px #222;
+}
+
+.col-wheel {
+  padding: 0;
+}
 </style>
