@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: 'form',
+  name: 'Form',
   props: {
   },
 };
