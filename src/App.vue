@@ -3,10 +3,9 @@
     <div class="container-fluid h-100">
       <div class="row h-100">
         <div class="col-3 col-panel">
-          <transistion name="fade" mode="out-in" v-on:after-enter="loaded" appear>
-          <router-view>
-          </router-view>
-          </transistion>
+          <transition name="fade" mode="out-in" appear>
+          <component :is="view"></component>
+          </transition>
         </div>
         <div class="col col-wheel">
           <Wheel></Wheel>
