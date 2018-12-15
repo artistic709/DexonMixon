@@ -20,16 +20,23 @@ import Web3 from 'web3'
 import utils from './utils'
 
 import Wheel from './components/Wheel.vue'
+import Home from './components/Home.vue'
+import Form from './components/Form.vue'
 
 export default {
   name: 'App',
   components: {
-    Wheel
+    Wheel, Home, Form
+  },
+  data() {
+    return {
+      view: 'Home'
+    }
   },
   methods: {
-    loaded() {
-      console.log("Component Loaded!");
-    }
+    changeView() {
+      this.view = 'Form';
+    },
   }
 }
 
@@ -60,6 +67,7 @@ body {
 }
 
 .col-panel {
+  padding: 0;
   background-color: #fafafa;
   box-shadow: 0 0 12px #222;
 }
@@ -67,4 +75,11 @@ body {
 .col-wheel {
   padding: 0;
 }
+
+.v-leave { opacity: 1; }
+.v-leave-active { transition: opacity 1s }
+.v-leave-to { opacity: 0; }
+.v-enter { opacity: 0; }
+.v-enter-active  { transition: opacity 1s }
+.v-enter-to { opacity: 1; }
 </style>
