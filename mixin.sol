@@ -12,7 +12,7 @@ contract etherMixin {
     }
     
     function open(address to, uint256 value, uint256 expire, bytes32 secretHash) public{
-        require(channel[msg.sender][to].expire < now);
+        require(channel[msg.sender][to].value == 0);
         balanceOf[msg.sender] = balanceOf[msg.sender].sub(value);
         channel[msg.sender][to].value = value;
         channel[msg.sender][to].expire = expire;
@@ -38,6 +38,7 @@ contract etherMixin {
         address _from = msg.sender;
         balanceOf[_from] = balanceOf[_from].add(msg.value);
     }
+    
     function withdraw(uint256 _value) public {
         address _to = msg.sender;
         balanceOf[_to] = balanceOf[_to].sub(_value);
@@ -67,7 +68,7 @@ contract etherMixin {
         for(i = 0; i < to.length; i++){
             address t = to[i];
             balanceOf[t] = balanceOf[t].add(_in[i]);
-            totalIn = totalIn.add(out[i]);
+            totalIn = totalIn.add(_in[i]);
         }
         require(totalIn == totalOut);
     }
