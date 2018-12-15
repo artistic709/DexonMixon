@@ -1,18 +1,18 @@
 <template>
-  <div id="home">
+  <div id="form">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home',
+  name: 'form',
   props: {
   },
 };
 </script>
 
 <style lang="scss">
-#home {
+#form {
   display: flex;
   height: 100%;
 }
