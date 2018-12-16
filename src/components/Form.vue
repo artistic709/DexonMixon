@@ -34,7 +34,11 @@
       <div style="display:none" id="entry-template">
       </div>
       <div class="row row-submit">
-        <div class="center">
+        <div class="row center">
+          <p><span>Neurons: </span><input type="text" class="form-control" id="in-neurons" placeholder="# of neurons"></p>
+          <p><span>Rounds: </span><input type="text" class="form-control" id="in-rounds" placeholder="# of rounds to execute"></p>
+        </div>
+        <div class="row center">
           <button type="button" class="btn btn-success btn-lg btn-block">Submit</button>
         </div>
       </div>
@@ -185,11 +189,37 @@ jQuery(document).ready(function() {
   position: absolute;
   bottom: 126px;
   width: 100%;
-  height: 300px;
+  height: 240px;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   border-top: 2px solid #aaa
+}
+
+.row-submit .center:nth-child(1) {
+  position: absolute;
+  top: 25px;
+  left: 155px;
+}
+
+.row-submit .center:nth-child(1) p {
+  width: 100%;
+  font-size: 32px;
+  line-height: 30px;
+}
+
+.row-submit .center:nth-child(1) span:nth-child(1) {
+  font-size: 20px;
+}
+
+#in-neurons {
+  width: 172px;
+  display: inline-block;
+}
+
+#in-rounds {
+  width: 179px;
+  display: inline-block;
 }
 
 .row-submit button {
