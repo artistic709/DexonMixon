@@ -11,6 +11,8 @@ let TPS = 10
 let EST
 // index: round
 let PRIVATEKEYS = []
+const addrContract = ''
+// let contract = new web3.eth.Contract(ABI, addrContract);
 
 embark('0x123', 100, 2, 2)
 console.log(PRIVATEKEYS, CURRENTROUND)
@@ -39,9 +41,33 @@ function embark(to, amount, neuron, round) {
 	pubAddress = ethUtil.toChecksumAddress(pubAddress.toString('hex'))
 	//TODO: jump out dekuson to let users transfer dex to round[0] account
 	console.log(pubAddress)
+	// contract.methods.deposit().call().then(bal => {
+	// 	// done deposit
+	// });
+
+	let froms = [pubAddress]
+	// let balance = web3.methods.balanceOf(pubAddress)
+	let balance = 3
+	let outs = [balance]
 
 	CURRENTROUND++
 	EST = TPS * ROUND
+
+	let tos = []
+	let ins = []
+	for (let j = 0; j < neuron; j++) {
+		let toPubAddress = ethUtil.privateToAddress(PRIVATEKEYS[CURRENTROUND][j])
+		toPubAddress = ethUtil.toChecksumAddress(toPubAddress.toString('hex'))
+		tos.push(toPubAddress)
+		ins.push(balance / neuron)
+	}
+
+	send{
+		froms,
+		tos,
+		outs,
+		ins
+	}
 }
 
 function sign(txHash) {
