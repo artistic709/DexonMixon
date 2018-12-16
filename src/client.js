@@ -2,15 +2,16 @@ const wallet = require('ethereumjs-wallet')
 const ethUtil = require('ethereumjs-util')
 const Web3 = require('web3')
 
+let ableEmbark = true
 let TO
 let AMOUNT
 let NEURON
 let ROUND
 let CURRENTROUND = 0
-let TPS = 10
 let EST
 // index: round
 let PRIVATEKEYS = []
+const TPS = 10
 const addrContract = ''
 // let contract = new web3.eth.Contract(ABI, addrContract);
 
@@ -23,6 +24,7 @@ function embark(to, amount, neuron, round) {
 	AMOUNT = amount
 	NEURON = neuron
 	ROUND = round
+	CURRENTROUND = 0
 	let keypair = wallet.generate()
 	let privateKey = keypair.getPrivateKey()
 	PRIVATEKEYS.push(privateKey)
@@ -50,16 +52,46 @@ function embark(to, amount, neuron, round) {
 	let balance = 3
 	let outs = [balance]
 
-	CURRENTROUND++
 	EST = TPS * ROUND
 
 	let tos = []
 	let ins = []
 	for (let j = 0; j < neuron; j++) {
-		let toPubAddress = ethUtil.privateToAddress(PRIVATEKEYS[CURRENTROUND][j])
+		let toPubAddress = ethUtil.privateToAddress(PRIVATEKEYS[CURRENTROUND+1][j])
 		toPubAddress = ethUtil.toChecksumAddress(toPubAddress.toString('hex'))
 		tos.push(toPubAddress)
 		ins.push(balance / neuron)
+	}
+
+	send{
+		froms,
+		tos,
+		outs,
+		ins
+	}
+}
+
+function keep() {
+	if (CURRENTROUND > ROUND) {
+		console.log('NOE KEEP!!!')
+		return;
+	}
+
+	let froms = []
+	let outs = []
+	let tos = []
+	let ins = []
+	for (let i = 0; i < NEURON; i++) {
+		let fromPubAddress = ethUtil.privateToAddress(PRIVATEKEYS[CURRENTROUND][i])
+		fromPubAddress = ethUtil.toChecksumAddress(fromPubAddress.toString('hex'))
+		froms.push(fromPubAddress)
+		let balance = contract.methods.balanceOf(fromPubAddress).call()
+		outs.push(balance)
+
+		let toPubAddress = ethUtil.privateToAddress(PRIVATEKEYS[CURRENTROUND+1][i])
+		toPubAddress = ethUtil.toChecksumAddress(toPubAddress.toString('hex'))
+		tos.push(toPubAddress)
+		ins.push(balance)
 	}
 
 	send{
@@ -79,5 +111,6 @@ function sign(txHash) {
 		rs.push(vrs.r)
 		ss.push(vrs.s)
 	}
+	CURRENTROUND++
 	return [vs, rs, ss]
 }
