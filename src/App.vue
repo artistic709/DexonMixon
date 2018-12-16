@@ -101,7 +101,8 @@ body {
 
 .blank {
   background: none;
-  transition: background 0.3s ease-in-out;
+  margin-bottom: 0 !important;
+  transition: all 0.3s ease-in-out;
 }
 
 </style>

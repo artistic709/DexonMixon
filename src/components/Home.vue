@@ -22,6 +22,8 @@ export default {
 }
 
 #home .btn-start {
+  width: 60%;
+  margin: 0 auto;
   cursor: pointer;
 }
 
