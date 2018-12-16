@@ -7,20 +7,31 @@
       </div>
       <div class="row">
         <div id="total">
-          <h3>Total Value: <span id="total-val">0.009487948794879487</span></h3>
+          <h3>Total Value: <span id="total-val">0.0</span></h3>
         </div>
       </div>
       <div class="row-table">
-        <div class="row entry" v-for="n in 20">
-          <div class="col-7"></div>
-          <div class="col-5"></div>
+        <div class="row entry">
+          <div class="col-6">
+            <h4>&nbsp;Recipient</h4>
+          </div>
+          <div class="col-6">
+            <h4>&nbsp;Value</h4>
+          </div>
+        </div>
+        <div class="row entry">
+          <div class="col-6">
+            <input type="text" class="form-control" id="to-addr-1" placeholder="DEXON Address (0x.....)">
+          </div>
+          <div class="col-5">
+            <input type="text" class="form-control" id="to-val-1" placeholder="Value"> <span>DEX</span>
+          </div>
+          <div class="col-1">
+            <div class="addbutton"></div>
+          </div>
         </div>
       </div>
       <div style="display:none" id="entry-template">
-        <div class="row entry">
-          <div class="col-7"></div>
-          <div class="col-5"></div>
-        </div>
       </div>
       <div class="row row-submit">
         <div class="center">
@@ -33,6 +44,7 @@
 
 <script>
 import Web3 from 'web3'
+import * as jQuery from 'jquery'
 import utils from '../utils'
 
 export default {
@@ -54,8 +66,24 @@ export default {
     }
   },
   methods: {
+    isNumberKey(evt) {
+      var charCode = (evt.which) ? evt.which : event.keyCode
+      if (charCode > 31 && (charCode < 48 || charCode > 57))
+          return false;
+      return true;
+    }
   }
 };
+
+jQuery(document).ready(function() {
+    //this calculates values automatically
+    jQuery("#to-val-1").on("keydown keyup", function() {
+      let num1 = document.getElementById('to-val-1').value;
+      let result = parseFloat(num1, Number).toString();
+      if (result === 'NaN') result = '0.0';
+      document.getElementById('total-val').textContent = result;
+    });
+});
 </script>
 
 <style lang="scss">
@@ -103,7 +131,7 @@ export default {
   width: 100%;
   height: 700px;
   margin: 10px 0;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
   padding-right: 13px;
   box-sizing: content-box;
@@ -116,22 +144,51 @@ export default {
   width: 100%;
 }
 
-.row-table *:nth-child(1) {
-  background-color: #22a;
+.row-table .entry *:nth-child(1) {
 }
 
-.row-table *:nth-child(2) {
-  background-color: #2a2;
+.row-table .entry *:nth-child(2) {
+}
+
+.row-table .entry *:nth-child(2) input {
+  width: 140px;
+  display: inline-block;
+}
+
+
+.row-table .entry *:nth-child(3) {
+  position: relative;
+}
+
+
+.addbutton {
+  position: absolute;
+  top: 1px; left: -1px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: solid 2px #aaa;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.addbutton:before {
+  content: '+';
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  font-size: 28px;
+  text-align: center;
 }
 
 .row-submit {
   position: absolute;
   bottom: 126px;
   width: 100%;
-  height: 100px;
+  height: 300px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   border-top: 2px solid #aaa
 }
 
@@ -140,5 +197,6 @@ export default {
   height: 60px;
   font-size: 1.7em;
   line-height: 1em;
+  margin-bottom: 40px;
 }
 </style>
